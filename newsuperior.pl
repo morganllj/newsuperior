@@ -1,5 +1,12 @@
 #!/usr/local/bin/perl -w
 #
+# newsuperior.pl
+# morgan@morganjones.org
+
+# work around for ldap servers that don't support the newsuperior changetype.
+
+# run as:
+# ./newsuperior.pl  -D uid=morgan,ou=employees,dc=domain,dc=org -y ~/.pass -b dc=domain,dc=org -h ldaps://devldapm.domain.net -f uid=selectivesync -u ou=svc_accts,dc=domain,dc=org
 
 use Net::LDAP;
 use strict;
