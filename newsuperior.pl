@@ -54,22 +54,12 @@ if ($#e>0) {
 }
 
 my $e = $e[0];
-# print "entry: ", Dumper $e;
 print "original entry";
 print $e->ldif();
 
 my $dn = $e->dn();
-print "old dn: $dn\n";
 
 my @eg = get_groups($ldap, $dn);
-
-# print "groups:\n"
-#   if (@eg);
-
-# for my $eg (@eg) {
-#     my $gdn = $eg->dn();
-#     print "\t$gdn\n";
-# }
 
 my $newdn = (split (/,/, $dn))[0];
 $newdn .= ",".$opts{u};
@@ -87,14 +77,11 @@ unless (exists $opts{n}) {
 $e->dn($newdn);
 
 print "\nadding new entry ", $e->dn, "\n";
-#print $e->ldif();
-
 
 unless (exists $opts{n}) {
     my $r4 = $ldap->add ($e);
     $r4->code && die "problem adding: ", $r->error;
 }
-
 
 # check to see if groups memberships were cleared.  If not, clear
 # them.  If so move on to re-adding with new dn
@@ -112,7 +99,7 @@ if (@eg2) {
 	
 	unless (exists $opts{n}) {
 	    my $delete_dn_r = $eg2->delete(uniquemember => $dn)->update($ldap);
-	    $delete_dn_r->code && die "problem deleting: ", $delete_dn_r->error;
+	    $delete_dn_r->code && warn "problem deleting: ", $delete_dn_r->error;
 	}
 	
     }
@@ -124,7 +111,7 @@ for my $eg (@eg) {
 
     unless (exists $opts{n}) {
 	my $add_dn_r = $eg->add(uniquemember => $newdn)->update($ldap);
-	$add_dn_r->code && die "problem deleting: ", $add_dn_r->error;
+	$add_dn_r->code && warn "problem adding: ", $add_dn_r->error;
     }
 }
 
