@@ -4,9 +4,7 @@
 # morgan@morganjones.org
 
 # work around for ldap servers that don't support the newsuperior changetype.
-
-# run as:
-# ./newsuperior.pl  -D uid=morgan,ou=employees,dc=domain,dc=org -y ~/.pass -b dc=domain,dc=org -h ldaps://devldapm.domain.net -f uid=selectivesync -u ou=svc_accts,dc=domain,dc=org
+# see README for example usage
 
 use Net::LDAP;
 use strict;
@@ -18,7 +16,7 @@ my %opts;
 sub print_usage();
 sub get_groups($$);
 
-getopts('b:f:u:D:h:y:n', \%opts);
+getopts('b:f:u:D:H:y:n', \%opts);
 
 $opts{b} || print_usage();
 $opts{f} || print_usage();
@@ -116,7 +114,7 @@ for my $eg (@eg) {
 }
 
 sub print_usage() {
-    print "usage: $0  -D <binddn> -y <pass file> -h <host> -b <basedn> -f <filter> -u <newsuperior>\n\n";
+    print "usage: $0  -D <binddn> -y <pass file> -H <host> -b <basedn> -f <filter> -u <newsuperior>\n\n";
     exit;
 }
 
