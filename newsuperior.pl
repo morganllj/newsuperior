@@ -23,7 +23,7 @@ $opts{f} || print_usage();
 $opts{u} || print_usage();
 $opts{y} || print_usage();
 $opts{D} || print_usage();
-$opts{h} || print_usage();
+$opts{H} || print_usage();
 $opts{n} && print "-n used, no changes will be made\n\n";
 
 open (IN, $opts{y}) || die "can't open $opts{y}";
@@ -31,7 +31,7 @@ my $pass = <IN>;
 chomp $pass;
 close IN;
 
-my $ldap = Net::LDAP->new($opts{h}) || die "$@";
+my $ldap = Net::LDAP->new($opts{H}) || die "$@";
 my $bind_r = $ldap->bind($opts{D}, password => $pass);
 $bind_r->code && die "unable to bind as ", $opts{D}, ": ", $bind_r->error;
 
@@ -69,7 +69,8 @@ if ($newdn eq $dn) {
 
 unless (exists $opts{n}) {
     print "deleting entry...\n";
-    $e->delete->update($ldap)
+    $ldap->delete($dn);
+    # $e->delete->update($ldap)
 }
 
 $e->dn($newdn);
