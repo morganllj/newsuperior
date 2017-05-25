@@ -115,7 +115,9 @@ for my $eg (@eg) {
 }
 
 sub print_usage() {
-    print "usage: $0  -D <binddn> -y <pass file> -H <host> -b <basedn> -f <filter> -u <newsuperior>\n\n";
+    print "usage: $0 [-n]  -D <binddn> -y <pass file> -H <host> -b <basedn> -f <filter> -u <newsuperior>\n";
+    print "\t-n print what will be done but don't make changes\n";
+    print "\n";
     exit;
 }
 
